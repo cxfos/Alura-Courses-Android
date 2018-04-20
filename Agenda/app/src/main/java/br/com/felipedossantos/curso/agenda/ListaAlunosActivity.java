@@ -1,10 +1,13 @@
 package br.com.felipedossantos.curso.agenda;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,12 +29,21 @@ import br.com.felipedossantos.curso.agenda.modelo.Aluno;
 public class ListaAlunosActivity extends AppCompatActivity {
 
     public static final int CODE_PERM_CALL = 1;
+    public static final int CODE_PERM_SMS = 2;
     private ListView listaAlunos;
 
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_alunos);
+
+        if (checkSelfPermission(Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED){
+            requestPermissions(new String[] { Manifest.permission.RECEIVE_SMS } , CODE_PERM_SMS);
+        }
+
 
         listaAlunos = (ListView) findViewById(R.id.lista_alunos);
 
@@ -149,5 +161,6 @@ public class ListaAlunosActivity extends AppCompatActivity {
         // requestCode tem o Int passado no metodo ActivityCompat.requestPermissions
         // resquestCode criados no fonte:
         // 1 = CODE_PERM_CALL = Acesso para realizar Chamada Telefonica do Aluno.
+        // 2 = CODE_PERM_SMS = Acesso para receber SMS.
     }
 }
