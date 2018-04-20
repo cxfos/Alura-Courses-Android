@@ -12,17 +12,22 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.List;
 
+import br.com.felipedossantos.curso.agenda.WebClient.EnviaDadosServidor;
+import br.com.felipedossantos.curso.agenda.WebClient.WebClient;
 import br.com.felipedossantos.curso.agenda.adapter.AlunosAdapter;
+import br.com.felipedossantos.curso.agenda.converter.AlunoConverter;
 import br.com.felipedossantos.curso.agenda.dao.AlunoDAO;
 import br.com.felipedossantos.curso.agenda.modelo.Aluno;
 
@@ -152,6 +157,22 @@ public class ListaAlunosActivity extends AppCompatActivity {
                     return false;
                 }
             });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_lista_alunos, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.enviar_notas :
+                new EnviaDadosServidor(this).execute();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
