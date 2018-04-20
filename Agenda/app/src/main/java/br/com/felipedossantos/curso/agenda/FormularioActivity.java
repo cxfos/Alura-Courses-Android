@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -44,12 +45,13 @@ public class FormularioActivity extends AppCompatActivity {
         botaoFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intentCamera, CODE_INTENT_CAMERA);
                 caminhoFoto = getExternalFilesDir(null) + "/"+ System.currentTimeMillis() +".jpg";
                 File arquivoFoto = new File(caminhoFoto);
-                intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(arquivoFoto));
-                startActivity(intentCamera);
+                Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intentCamera.putExtra(MediaStore.EXTRA_OUTPUT,
+                        FileProvider.getUriForFile(FormularioActivity.this,
+                                BuildConfig.APPLICATION_ID + ".provider", arquivoFoto));
+                startActivityForResult(intentCamera, CODE_INTENT_CAMERA);
             }
         });
     }

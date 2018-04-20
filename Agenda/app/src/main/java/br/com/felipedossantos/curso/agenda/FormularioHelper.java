@@ -54,6 +54,8 @@ public class FormularioHelper {
             campoFoto.setImageBitmap(bitmapReduzido);
             campoFoto.setScaleType(ImageView.ScaleType.FIT_XY);
             campoFoto.setTag(caminhoFoto);
+
+            //TODO - Review method cuz when the Photo is taken in Portrait orientation it is loaded in Landscape
         }
     }
 }
